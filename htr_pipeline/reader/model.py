@@ -1,5 +1,5 @@
 import sys
-from collections import namedtuple
+from dataclasses import dataclass
 from typing import List
 from typing import Tuple
 
@@ -11,7 +11,12 @@ from path import Path
 # Disable eager mode
 tf.compat.v1.disable_eager_execution()
 
-Batch = namedtuple('Batch', 'imgs, gt_texts, batch_size')
+
+@dataclass
+class Batch:
+    imgs: List[np.ndarray]
+    gt_texts: List[str]
+    batch_size: int
 
 
 class Preprocessor:
@@ -239,6 +244,3 @@ class Model:
         texts = self.decoder_output_to_text(decoded, num_batch_elements)
 
         return texts
-
-
-crnn = Model()

@@ -1,8 +1,8 @@
 import cv2
 import matplotlib.pyplot as plt
+from path import Path
 
 from htr_pipeline import read_page, DetectorConfig
-from path import Path
 
 for img_filename in Path('../data').files('*.png'):
     print(f'Reading file {img_filename}')

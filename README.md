@@ -8,12 +8,12 @@ operations:
 
 ![example](./doc/example.png)
 
-The pipeline basically combines two simple models:
+The pipeline combines these two models:
 
 * [Scale space based word detector](https://github.com/githubharald/WordDetector)
 * [CRNN based text reader](https://github.com/githubharald/SimpleHTR)
 
-Don't expect too much as these are both very rudimentary models.
+**Don't expect too much as these are both very rudimentary models.**
 
 ## Installation
 
@@ -24,6 +24,7 @@ Don't expect too much as these are both very rudimentary models.
 
 ### Run demo
 
+* Additionally install matplotlib for plotting: `pip install matplotlib`
 * Go to `scripts/`
 * Run `python demo.py`
 * The output should look like the plot shown above
@@ -49,9 +50,13 @@ for read_line in read_lines:
 
 If needed, the detection can be configured by instantiating and passing these data-classes:
 
-* DetectorConfig
-* LineClusteringConfig
+* `DetectorConfig`
+* `LineClusteringConfig`
 
 For more details please have a look at the docstrings of `detect` and `sort_multiline`
-in `htr_pipeline/word_detector/__init__.py`. The most important settings are the `height` in `DetectorConfig` and
-the `min_words_per_line` in `LineClusteringConfig`.
+in `htr_pipeline/word_detector/__init__.py`. The most important settings are:
+
+* `height` in `DetectorConfig`: the word detector is not scale invariant, the text height should be 25-50px when using
+  the default parameters, which is achieved by resizing the image to the specified height
+* `min_words_per_line` in `LineClusteringConfig`: lines which have fewer words than specified are discarded, the default
+  setting is 2, which means that lines with a single word will not be read by default

@@ -15,7 +15,7 @@ class WordReadout:
 
 @dataclass
 class DetectorConfig:
-    height: int = 1000
+    height: int = 1000  # input image is resized to this height for detection algo
     kernel_size: int = 25
     sigma: float = 11
     theta: float = 7
@@ -24,8 +24,8 @@ class DetectorConfig:
 
 @dataclass
 class LineClusteringConfig:
-    min_words_per_line: int = 2
-    max_dist: float = 0.7
+    min_words_per_line: int = 2  # minimum number of words per line, if less, line gets discarded
+    max_dist: float = 0.7  # threshold for clustering words into lines, value between 0 and 1
 
 
 def read_page(img: np.ndarray,

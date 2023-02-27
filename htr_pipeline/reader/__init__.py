@@ -1,6 +1,9 @@
 import numpy as np
 
-from .model import crnn, Batch, Preprocessor
+from .model import Model, Batch, Preprocessor
+
+# singleton instance of the CRNN model
+CRNN = Model()
 
 
 def read(img: np.ndarray) -> str:
@@ -10,5 +13,5 @@ def read(img: np.ndarray) -> str:
     img = preprocessor.process_img(img)
 
     batch = Batch([img], None, 1)
-    text = crnn.infer_batch(batch)
+    text = CRNN.infer_batch(batch)
     return text[0]
