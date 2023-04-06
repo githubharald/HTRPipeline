@@ -12,7 +12,7 @@ setup(
                       'opencv-python',
                       'scikit-learn',
                       'editdistance',
-                      'mathplotlib',
+                      'matplotlib',
                       'path'],
     python_requires='>=3.8',
     package_data={'htr_pipeline.reader.stored_model': ['*']}
