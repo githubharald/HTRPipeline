@@ -5,7 +5,7 @@ setup(
     version='1.2.0',
     description='Handwritten text recognition pipeline.',
     author='Harald Scheidl',
-    packages=find_namespace_packages(),
+    packages=find_namespace_packages(include=['htr_pipeline', 'htr_pipeline.*']),
     url="https://github.com/githubharald/HTRPipeline",
     install_requires=['numpy',
                       'onnxruntime',
