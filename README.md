@@ -10,8 +10,9 @@ operations:
 
 ## Installation
 
-* Download [model weights](https://www.dropbox.com/s/j1hl6bppecug0sz/models.zip?dl=0)
-* Copy them into the folder `htr_pipeline/models`
+* Download the zipped [model weights](https://www.dropbox.com/s/j1hl6bppecug0sz/models.zip?dl=0)
+* Unzip
+* Copy the files (reader.onnx, reader.json, detector.onnx) into the folder `htr_pipeline/models`
 * Go to the root level of the repository (where `setup.py` is located)
 * Execute `pip install .`
 
