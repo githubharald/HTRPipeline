@@ -10,10 +10,10 @@ with open('data/words_alpha.txt') as f:
 prefix_tree = PrefixTree(word_list)
 
 
-def process_page(img, height, enlarge, use_dictionary, min_words_per_line, text_scale):
+def process_page(img, scale, margin, use_dictionary, min_words_per_line, text_scale):
     # read page
     read_lines = read_page(img,
-                           detector_config=DetectorConfig(height=height, enlarge=enlarge),
+                           detector_config=DetectorConfig(scale=scale, margin=margin),
                            line_clustering_config=LineClusteringConfig(min_words_per_line=min_words_per_line),
                            reader_config=ReaderConfig(decoder='word_beam_search' if use_dictionary else 'best_path',
                                                       prefix_tree=prefix_tree))
@@ -47,13 +47,13 @@ with open('data/config.json') as f:
 
 examples = []
 for k, v in config.items():
-    examples.append([f'data/{k}', v['height'], v['enlarge'], False, 2, v['text_scale']])
+    examples.append([f'data/{k}', v['scale'], v['margin'], False, 2, v['text_scale']])
 
 # define gradio interface
 gr.Interface(fn=process_page,
              inputs=[gr.Image(label='Input image'),
-                     gr.Slider(10, 2000, 1000, label='Image height'),
-                     gr.Slider(0, 25, 1, step=1, label='Enlarge detection'),
+                     gr.Slider(0, 10, 1, step=0.01, label='Scale'),
+                     gr.Slider(0, 25, 1, step=1, label='Margin'),
                      gr.Checkbox(value=False, label='Use dictionary'),
                      gr.Slider(1, 10, 1, step=1, label='Minimum number of words per line'),
                      gr.Slider(0.5, 2, 1, label='Text size in visualization')],

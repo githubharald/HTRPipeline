@@ -19,10 +19,10 @@ for decoder in ['best_path', 'word_beam_search']:
 
         # read text
         img = cv2.imread(img_filename, cv2.IMREAD_GRAYSCALE)
-        height = sample_config[img_filename.basename()]['height'] if img_filename.basename() in sample_config else 1000
-        enlarge = sample_config[img_filename.basename()]['enlarge'] if img_filename.basename() in sample_config else 0
+        scale = sample_config[img_filename.basename()]['scale'] if img_filename.basename() in sample_config else 1
+        margin = sample_config[img_filename.basename()]['margin'] if img_filename.basename() in sample_config else 0
         read_lines = read_page(img,
-                               detector_config=DetectorConfig(height=height, enlarge=enlarge),
+                               detector_config=DetectorConfig(scale=scale, margin=margin),
                                line_clustering_config=LineClusteringConfig(min_words_per_line=2),
                                reader_config=ReaderConfig(decoder=decoder, prefix_tree=prefix_tree))
 

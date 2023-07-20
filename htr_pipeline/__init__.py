@@ -18,10 +18,9 @@ class WordReadout:
 
 @dataclass
 class DetectorConfig:
-    """Configure at which image size the detection takes place,
-    and how much the detection bounding box will be enlarged before reading it."""
-    height: int = 1000  # input image is resized to this height for detection algo
-    enlarge: int = 5
+    """Configure size at which word detection is done, and define added margin around word before reading."""
+    scale: float = 1.0
+    margin: int = 0
 
 
 @dataclass
@@ -47,7 +46,7 @@ def read_page(img: np.ndarray,
         img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
     # detect words
-    detections = detect(img, detector_config.height, detector_config.enlarge)
+    detections = detect(img, detector_config.scale, detector_config.margin)
 
     # sort words (cluster into lines and ensure reading order top->bottom and left->right)
     lines = sort_multiline(detections, min_words_per_line=line_clustering_config.min_words_per_line)

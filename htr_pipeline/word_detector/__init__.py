@@ -45,23 +45,22 @@ def pad_image(img):
     return res
 
 
-def detect(img: np.ndarray, height: int, enlarge: int) -> List[DetectorRes]:
-    f = height / img.shape[0]
-    img_resized = cv2.resize(img, None, fx=f, fy=f)
+def detect(img: np.ndarray, scale: float, margin: int) -> List[DetectorRes]:
+    img_resized = cv2.resize(img, None, fx=scale, fy=scale)
     img_padded = pad_image(img_resized)
     img_batch = img_padded.astype(np.float32)[None, None] / 255 - 0.5
 
     outputs = _ORT_SESSION.run(None, {'input': img_batch})
     pred_map = outputs[0][0]
     aabbs = decode(pred_map, comp_fg=fg_by_cc(0.5, 100), f=img_batch.shape[2] / pred_map.shape[1])
-    aabbs = [aabb.scale(1 / f, 1 / f) for aabb in aabbs if aabb.scale(1 / f, 1 / f)]
+    aabbs = [aabb.scale(1 / scale, 1 / scale) for aabb in aabbs if aabb.scale(1 / scale, 1 / scale)]
     h, w = img.shape
     aabbs = [aabb.clip(AABB(0, w - 1, 0, h - 1)) for aabb in aabbs]  # bounding box must be inside img
     clustered_aabbs = cluster_aabbs(aabbs)
 
     res = []
     for aabb in clustered_aabbs:
-        aabb = aabb.enlarge(enlarge)
+        aabb = aabb.enlarge(margin)
         aabb = aabb.as_type(int).clip(AABB(0, img.shape[1], 0, img.shape[0]))
         if aabb.area() == 0:
             continue
